@@ -92,3 +92,21 @@ ANIMA agents operate on the VEIL L1:
 3. **Self-assembling** — Successful agents provision more infrastructure
 4. **Privacy-preserving** — ZER0ID for identity, shielded ledger for transactions
 5. **Minimal trust** — Reputation gates capabilities, not human gatekeepers
+
+## Conway Terminal Viewport
+
+The ANIMA dashboard includes a live Conway terminal viewport in the `ANIMA` tab under `04 - SYSTEMS`.
+
+- File: `ui/src/ui/views/anima-dashboard.ts`
+- Panel label: `CONWAY BOX TERMINAL`
+- Default sandbox target: `d2fe48a2a6465322e963a0a11c30ead3`
+- Default terminal URL: `https://d2fe48a2a6465322e963a0a11c30ead3.life.conway.tech`
+- OS label shown in panel metadata: `Ubuntu 22.04 LTS (Jammy)`
+
+URL override precedence for the embedded iframe:
+
+1. Query param `conwayTerminalUrl` (example: `?conwayTerminalUrl=https://...`)
+2. `localStorage["anima.conwayTerminalUrl"]`
+3. Built-in default URL in the view model
+
+Only `http` and `https` URLs are accepted for overrides.

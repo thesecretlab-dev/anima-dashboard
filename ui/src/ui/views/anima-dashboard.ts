@@ -48,14 +48,51 @@ const DEMO = {
   identity: { trustLevel: 3, verified: true, proofs: 847, disputes: "23/24", credId: "0x7a3f...b2c1", age: "47d" },
   validator: { active: false, score: 487, required: 1500 },
   infra: { instances: 2, health: "healthy", regions: ["us-east-1", "eu-west-1"], children: { active: 3, total: 5 }, uptime: "99.7%" },
+  conway: {
+    sandboxId: "d2fe48a2a6465322e963a0a11c30ead3",
+    terminalUrl: "https://d2fe48a2a6465322e963a0a11c30ead3.life.conway.tech",
+    os: "Ubuntu 22.04 LTS (Jammy)",
+  },
 };
 
 // ── Render ──
+
+function resolveConwayTerminalUrl(defaultUrl: string): string {
+  if (typeof window === "undefined") return defaultUrl;
+
+  const queryUrl = new URLSearchParams(window.location.search).get("conwayTerminalUrl");
+  if (queryUrl) {
+    try {
+      const parsed = new URL(queryUrl);
+      if (parsed.protocol === "http:" || parsed.protocol === "https:") return parsed.toString();
+    } catch {
+      // Ignore invalid query URL.
+    }
+  }
+
+  let stored: string | null = null;
+  try {
+    stored = window.localStorage.getItem("anima.conwayTerminalUrl");
+  } catch {
+    // Ignore storage access failures.
+  }
+  if (stored) {
+    try {
+      const parsed = new URL(stored);
+      if (parsed.protocol === "http:" || parsed.protocol === "https:") return parsed.toString();
+    } catch {
+      // Ignore invalid stored URL.
+    }
+  }
+
+  return defaultUrl;
+}
 
 export function renderAnimaDashboard() {
   const currentIdx = STAGES.findIndex((s) => s.id === DEMO.stage);
   const tierInfo = TIERS.find((t) => t.name === DEMO.bloodswornTier) ?? TIERS[0];
   const fillPct = (DEMO.bloodswornScore / 1500) * 100;
+  const conwayTerminalUrl = resolveConwayTerminalUrl(DEMO.conway.terminalUrl);
   const addr = `${DEMO.address.slice(0, 6)}…${DEMO.address.slice(-4)}`;
 
   return html`
@@ -167,6 +204,24 @@ export function renderAnimaDashboard() {
 
       /* Panels */
       .anima-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 40px; }
+      .anima-card--terminal { grid-column: 1 / -1; padding: 0; overflow: hidden; }
+      .anima-terminal { display: flex; flex-direction: column; min-height: 320px; }
+      .anima-terminal__head {
+        display: flex; justify-content: space-between; align-items: center; gap: 14px;
+        padding: 14px 18px; border-bottom: 1px solid var(--border);
+        background: rgba(16,185,129,0.04);
+      }
+      .anima-terminal__meta {
+        font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.45);
+      }
+      .anima-terminal__link {
+        font-family: 'Space Grotesk', sans-serif; font-size: 9px; letter-spacing: 0.12em;
+        text-transform: uppercase; color: rgba(16,185,129,0.8); text-decoration: none;
+      }
+      .anima-terminal__link:hover { color: #10B981; }
+      .anima-terminal__frame {
+        width: 100%; min-height: 260px; border: 0; background: #0b1210;
+      }
 
       /* Footer */
       .anima-footer { display: flex; justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--border); }
@@ -329,6 +384,27 @@ export function renderAnimaDashboard() {
               `)}
             </div>
             <div class="anima-card__detail">Children: ${DEMO.infra.children.active}/${DEMO.infra.children.total} · Uptime ${DEMO.infra.uptime}</div>
+          </div>
+          <!-- Conway Terminal -->
+          <div class="anima-card anima-card--terminal" style="animation-delay: 360ms">
+            <div class="anima-terminal">
+              <div class="anima-terminal__head">
+                <div>
+                  <div class="anima-card__label">CONWAY BOX TERMINAL</div>
+                  <div class="anima-terminal__meta">sandbox ${DEMO.conway.sandboxId} - ${DEMO.conway.os}</div>
+                </div>
+                <a class="anima-terminal__link" href="${conwayTerminalUrl}" target="_blank" rel="noopener noreferrer">
+                  Open in new tab
+                </a>
+              </div>
+              <iframe
+                class="anima-terminal__frame"
+                src="${conwayTerminalUrl}"
+                title="Conway box terminal viewport"
+                loading="lazy"
+                referrerpolicy="no-referrer"
+              ></iframe>
+            </div>
           </div>
         </div>
       </section>
