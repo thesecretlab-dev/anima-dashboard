@@ -22,7 +22,7 @@
 - Test: `pnpm test`
 - Lint: `pnpm check`
 - CLI: `anima` (was `openclaw`)
-- Config dir: `~/.anima/` (was `~/.openclaw/`)
+- Config dir: `~/.anima/` (was `~/.anima/`)
 - Config file: `anima.json` (was `openclaw.json`)
 
 ## Naming
@@ -43,3 +43,4 @@
 ## Credit
 
 Always preserve MIT license attribution to Peter Steinberger / OpenClaw.
+

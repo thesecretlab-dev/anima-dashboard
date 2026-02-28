@@ -39,7 +39,7 @@ const TIERS = [
 
 // ── Demo State (replace with gateway data) ──
 const DEMO = {
-  address: "0xbDAD2Ae46c6E110F419A40500b6aa0e7CdfB3a0C",
+  address: "0x0000000000000000000000000000000000000000",
   stage: "earning",
   bloodswornScore: 487,
   bloodswornTier: "Bloodsworn",
@@ -417,3 +417,4 @@ export function renderAnimaDashboard() {
     </div>
   `;
 }
+
