@@ -1,3 +1,5 @@
+> **Note:** This package is now part of the [ANIMA monorepo](https://github.com/thesecretlab-dev/anima). See `packages/dashboard/` for the latest code.
+
 # ANIMA Dashboard
 
 **Real-time monitoring and control interface for [ANIMA](https://github.com/thesecretlab-dev/anima-runtime) autonomous agent fleets.**
@@ -46,3 +48,4 @@ npm run dev
 ---
 
 *See everything. Control what matters.*
+
